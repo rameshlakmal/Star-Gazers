@@ -1,10 +1,9 @@
 import React, {useEffect,useState} from "react";
 import ListCast from "./components/ListCast";
 import Modals from "./components/Modals";
-
+import Nav from "./components/Nav";
 
 function App() {
-  const name = 'Star Gazers'
   const [cast, setCast] = useState([]);
   let [memberInfo , setMemberInfo] = useState(null);
 
@@ -19,6 +18,8 @@ function App() {
   });
 
   return (
+  <>
+    <Nav cast = {cast} onChoice={(info) => {setMemberInfo(info)}}/>
     <div className="container">
         <hgroup>
           <img src="images/group.svg" alt="stargazes group" />
@@ -28,6 +29,7 @@ function App() {
           { memberInfo && <Modals member={memberInfo} handleClose={()=>{setMemberInfo(null)}}/>}
         </hgroup>
     </div>
+  </>
 
   )
 }
