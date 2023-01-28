@@ -1,18 +1,30 @@
-import React, {Component,useState} from "react";
+import React, {useEffect,useState} from "react";
 import ListCast from "./components/ListCast";
 import Modals from "./components/Modals";
 
 
 function App() {
   const name = 'Star Gazers'
+  const [cast, setCast] = useState([]);
   let [memberInfo , setMemberInfo] = useState(null);
+
+
+  async function fetchCast(){
+    const res = await fetch('cast.json');
+    setCast(await res.json());
+}
+
+  useEffect(()=>{
+      fetchCast();
+  });
+
   return (
     <div className="container">
         <hgroup>
           <img src="images/group.svg" alt="stargazes group" />
           <h1>Meet the Stargazers</h1>
           <p>Members of an <b>intergalactic alliance</b> paving the way for peace and benevolence among all species. They are known for their enthusiasm for science, for their love of fun, and their dedication to education.</p>
-          <ListCast onChoice={(info) => {setMemberInfo(info)}}/>
+          <ListCast cast={cast}onChoice={(info) => {setMemberInfo(info)}}/>
           { memberInfo && <Modals member={memberInfo} handleClose={()=>{setMemberInfo(null)}}/>}
         </hgroup>
     </div>
